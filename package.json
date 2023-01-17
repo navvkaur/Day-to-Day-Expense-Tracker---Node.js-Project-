@@ -1,0 +1,30 @@
+{
+  "name": "day-to-day-expense-tracker---node.js-project",
+  "version": "1.0.0",
+  "description": "Expense Tracker Website",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Navneet Kaur",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.245.0",
+    "@sendgrid/mail": "^7.7.0",
+    "aws-sdk": "^2.1295.0",
+    "bcrypt": "^5.1.0",
+    "bootstrap-icons": "^1.10.3",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "data-parser": "^1.0.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20",
+    "razorpay": "^2.8.4",
+    "sequelize": "^6.28.0"
+  }
+}
