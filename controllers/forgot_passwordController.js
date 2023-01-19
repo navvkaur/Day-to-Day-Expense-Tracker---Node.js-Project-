@@ -86,7 +86,7 @@ console.log(req.query.newpassward);
 
                     const saltRounds = 10;
 
-                        bcrypt.hash(newpassword, saltRounds, function(err, hash) {
+                         bcrypt.hash(newpassword, saltRounds, function(err, hash) {
                             // Store hash in your password DB.
                             if(err){
                                 console.log(err);
@@ -94,7 +94,9 @@ console.log(req.query.newpassward);
                             }
                            
                             user.update({ password: hash }).then(() => {
-                                res.status(201).json({message: 'Successfuly update the new password'})
+                              //  res.redirect('http://localhost:3000/views/login.html')
+                           // return  window.location.href = 'http://127.0.0.1:5500/views/login.html'
+                                 return res.status(201).json({message: 'Successfuly update the new password'})
                             })
                         });
                     }
