@@ -26,12 +26,12 @@ function getExpense()
 var row = e.options[e.selectedIndex].value;
 console.log(row)
 localStorage.setItem('size',row);
-     axios.get(`http://localhost:3000/expense/add-expense?page=${page}`,{headers:{"Authorization":token,"size":row}})
+     axios.get(`http://43.205.255.229:3000/expense/add-expense?page=${page}`,{headers:{"Authorization":token,"size":row}})
     .then(({data:{expense, ...pagedata}}) => {
        
        console.log(pagedata);
     //   for(var i = 1;i<=pagedata.count;i++){
-    //     Pagination.innerHTML += `<a id='btn${total}' href='http://localhost:3000/expense/add-expense?page=${total}'>${total}</a>`
+    //     Pagination.innerHTML += `<a id='btn${total}' href='http://43.205.255.229:3000/expense/add-expense?page=${total}'>${total}</a>`
       
     // }
         listProducts(expense)
@@ -151,7 +151,7 @@ function findexpense(event){
     postRequest = async () => {
         try {
             if(flag==false){
-            const response = await axios.post("http://localhost:3000/expense/add-expense", expense_details,{headers:{"Authorization":token}});
+            const response = await axios.post("http://43.205.255.229:3000/expense/add-expense", expense_details,{headers:{"Authorization":token}});
             console.log(response);
             console.log(response.data.newExpenseDetail);
             location.reload();
@@ -161,7 +161,7 @@ function findexpense(event){
             else{
                 console.log(expense_details.id);
                 
-                        const response = await axios.post(`http://localhost:3000/expense/edit-expense/${expense_details.id}`,expense_details,{headers:{"Authorization":token}});
+                        const response = await axios.post(`http://43.205.255.229:3000/expense/edit-expense/${expense_details.id}`,expense_details,{headers:{"Authorization":token}});
                         console.log(response.data);
                         flag = false;
                         location.reload();
@@ -189,7 +189,7 @@ function showNewUseronScreen(userDetails){
 deleteUserfromapi = async (id) => {
     try {
        
-        const users = await axios.delete(`http://localhost:3000/expense/delete-expense/${id}`,{headers:{"Authorization":token}});
+        const users = await axios.delete(`http://43.205.255.229:3000/expense/delete-expense/${id}`,{headers:{"Authorization":token}});
         location.reload();
     } catch (err) {
 
@@ -209,13 +209,13 @@ document.getElementById('description').value=description;
 
     document.getElementById('rzp-button1').onclick = async function(e){
        
-        const response = await axios.get("http://localhost:3000/purchase/premium", {headers:{"Authorization":token}});
+        const response = await axios.get("http://43.205.255.229:3000/purchase/premium", {headers:{"Authorization":token}});
         console.log(response);
         var options ={
             "key":response.data.key_id,
             "order_id":response.data.order.id,
             "handler":async function (response){
-                await axios.post("http://localhost:3000/purchase/updatestatus", {
+                await axios.post("http://43.205.255.229:3000/purchase/updatestatus", {
                     order_id:options.order_id,
                     payment_id:response.razorpay_payment_id,
                 },{headers:{"Authorization":token}});
@@ -241,7 +241,7 @@ alert("Something went wrong!");
 async function createLeaderboard(){
     try{
    
-    const userLeaderboard = await axios.get('http://localhost:3000/premium/Leaderboard',{headers:{"Authorization":token}})
+    const userLeaderboard = await axios.get('http://43.205.255.229:3000/premium/Leaderboard',{headers:{"Authorization":token}})
     console.log(userLeaderboard);
     document.getElementById('div2-2').innerHTML=`<div class="card">
     <div class="card-header">
@@ -285,7 +285,7 @@ async function createLeaderboard(){
 
 async function download(){
    try {
-    const response = await axios.get('http://localhost:3000/premium/download',{headers:{"Authorization":token}})
+    const response = await axios.get('http://43.205.255.229:3000/premium/download',{headers:{"Authorization":token}})
    
         if(response.status === 200){
             //the bcakend is essentially sending a download link
@@ -316,7 +316,7 @@ async function getdownload()
 {   
     console.log("hiii");
    try {
-    const response = await axios.get("http://localhost:3000/expense/download",{headers:{"Authorization":token}})
+    const response = await axios.get("http://43.205.255.229:3000/expense/download",{headers:{"Authorization":token}})
      
       
       console.log(response.data);
