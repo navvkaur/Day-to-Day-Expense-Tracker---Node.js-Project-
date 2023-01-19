@@ -37,7 +37,7 @@ try{
 
      let count =  await Expense.count({where :{userId:req.user.id}});
      
-    items_per_page =  Number(items_per_page)
+    items_per_page =  Number(items_per_page) || 1;
     console.log("---------------")
    console.log(items_per_page)
    
