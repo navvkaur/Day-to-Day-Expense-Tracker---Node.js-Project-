@@ -18,7 +18,7 @@ function datasave(event){
        try{
         console.log(detail);
         
-        const response = await axios.post("http://localhost:3000/login/sign-in",detail);
+        const response = await axios.post("http://43.205.255.229:3000/login/sign-in",detail);
         console.log(response);
         console.log(response.data.newUserLogin);
         window.location = "login.html";
@@ -49,7 +49,7 @@ function getdata(event){
 getrequest= async () => {
   
      console.log(login_detail);
-      await axios.post("http://localhost:3000/login",login_detail).then(response=>{
+      await axios.post("http://43.205.255.229:3000/login",login_detail).then(response=>{
         console.log(response);
         if(response.status == 200){
            alert(response.data.message)
