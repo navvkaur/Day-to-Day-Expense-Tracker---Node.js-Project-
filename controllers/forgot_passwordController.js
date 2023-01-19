@@ -23,7 +23,7 @@ exports.forgotpassword = async (req,res)=>{
             sgMail.setApiKey(process.env.SENGRID_API_KEY)
 
             const msg = {
-                to: email, // Change to your recipient
+                to: user.email, // Change to your recipient
                 from: 'kaur2305navneet@gmail.com', // Change to your verified sender
                 subject: 'Sending with SendGrid is Fun',
                 text: 'and easy to do anywhere, even with Node.js',
@@ -57,24 +57,18 @@ exports.resetpassword = async (req, res) => {
     const id =  req.params.id;
     console.log(id);
     Forgotpassword.findOne({ where : { id }}).then(forgotpasswordrequest => {
-        if(forgotpasswordrequest){
-            forgotpasswordrequest.update({ active: false});
-            console.log(`http://localhost:3000/password/updatepassword/${id}`);
+       if (forgotpasswordrequest) {
+            forgotpasswordrequest.update({ isActive: false });
             res.status(200).send(`<html>
-                                    <script>
-                                        function formsubmitted(e){
-                                            e.preventDefault();
-                                            console.log('called')
-                                        }
-                                    </script>
                                     <form action="/password/updatepassword/${id}" method="get">
-                                        <label for="newpassword">Enter New password</label>
-                                        <input name="newpassword" type="password" required></input>
-                                        <button>reset password</button>
+                                        <label for="newpassward">Enter New password</label>
+                                        <input name="newpassward" type="password"></input>
+                                        <button>Reset Password</button>
                                     </form>
                                 </html>`
-                                )
-            res.end()
+            );
+            res.end();
+        
 
         }
     }).catch((err)=>{
@@ -88,7 +82,7 @@ exports.updatepassword = async(req, res) => {
     try {
         const  newpassword  = req.query;
         console.log(newpassword);
-        const { resetpasswordid } = req.params;
+        const { resetpasswordid } = req.params.id;
         Forgotpassword.findOne({ where : { id: resetpasswordid }}).then(resetpasswordrequest => {
             User.findOne({where: { id : resetpasswordrequest.userId}}).then(user => {
                 // console.log('userDetails', user)
