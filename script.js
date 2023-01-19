@@ -15,18 +15,15 @@ const Expense = require("./models/expense");
 const User = require("./models/user");
 const Order = require("./models/order");
 const Forgotpassword = require('./models/forgotpassword')
-console.log(process.env);
+
 
 
 
 const bodyParser = require('body-parser');
-const accessstreamlog = fs.createWriteStream(path.join(__dirname,'access.log'),{flag : 'a'});
-const privatekey = fs.readFileSync('server.key')
-const certificate = fs.readFileSync('server.key')
+
 app.use(bodyParser.json({ extended: false}));
-app.use(helmet());
+
 app.use(compression());
-app.use(morgan('combined',{stream:accessstreamlog}))
 app.use(cors());
 
 const loginRoutes = require('./routes/login')
@@ -41,7 +38,10 @@ app.use(purchaseRoutes);
 app.use(premiumRoutes);
 app.use(forgotpasswordRoutes);
 app.use(DownloadRoutes)
-
+app.use((req,res)=>{
+    console.log(req.url)
+    res.sendFile(path.join(__dirname,`/views/${req.url}`))
+})
 User.hasMany(Expense);
 Expense.belongsTo(User);
 
