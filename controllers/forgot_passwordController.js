@@ -11,7 +11,7 @@ exports.forgotpassword = async (req,res)=>{
         console.log(req.body.email);
         const  email  = req.body.email;
         console.log(email);
-        console.log(process.env.SENGRID_API_KEY)
+        //console.log(process.env.SENGRID_API_KEY)
         const user = await User.findOne({where : { username:email }});
         if(user){
             const id = uuid.v4();
@@ -20,28 +20,19 @@ exports.forgotpassword = async (req,res)=>{
                     throw new Error(err)
                 })
 
-            sgMail.setApiKey(process.env.SENGRID_API_KEY)
+            //sgMail.setApiKey(process.env.SENGRID_API_KEY)
 
             const msg = {
-                to: user.email, // Change to your recipient
+                to: email, // Change to your recipient
                 from: 'kaur2305navneet@gmail.com', // Change to your verified sender
                 subject: 'Sending with SendGrid is Fun',
                 text: 'and easy to do anywhere, even with Node.js',
                 html: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`,
             }
-            console.log(msg);
-
-            sgMail
-            .send(msg)
-            .then((response) => {
-
+                console.log(msg.html)
+                return res.status(200).json({message: 'Link to reset password sent to your mail ', sucess: true,link :`http://localhost:3000/password/resetpassword/${id}`})
                 
-                return res.status(response[0].statusCode).json({message: 'Link to reset password sent to your mail ', sucess: true,link :`http://localhost:3000/password/resetpassword/${id}`})
-
-            })
-            .catch((error) => {
-                throw new Error(error);
-            })
+            
 
             //send mail
         }else {
@@ -54,6 +45,7 @@ exports.forgotpassword = async (req,res)=>{
 
 }
 exports.resetpassword = async (req, res) => {
+    console.log('hii')
     const id =  req.params.id;
     console.log(id);
     Forgotpassword.findOne({ where : { id }}).then(forgotpasswordrequest => {
@@ -80,9 +72,12 @@ exports.resetpassword = async (req, res) => {
 exports.updatepassword = async(req, res) => {
 
     try {
-        const  newpassword  = req.query;
-        console.log(newpassword);
-        const { resetpasswordid } = req.params.id;
+console.log(req.query.newpassward);
+        const  newpassword  = req.query.newpassward;
+        console.log(".............."+newpassword);
+        
+        const { resetpasswordid } = req.params;
+        console.log(resetpasswordid)
         Forgotpassword.findOne({ where : { id: resetpasswordid }}).then(resetpasswordrequest => {
             User.findOne({where: { id : resetpasswordrequest.userId}}).then(user => {
                 // console.log('userDetails', user)
@@ -90,23 +85,20 @@ exports.updatepassword = async(req, res) => {
                     //encrypt the password
 
                     const saltRounds = 10;
-                    bcrypt.genSalt(saltRounds, function(err, salt) {
-                        if(err){
-                            console.log(err);
-                            throw new Error(err);
-                        }
-                        bcrypt.hash(newpassword, salt, function(err, hash) {
+
+                        bcrypt.hash(newpassword, saltRounds, function(err, hash) {
                             // Store hash in your password DB.
                             if(err){
                                 console.log(err);
                                 throw new Error(err);
                             }
+                           
                             user.update({ password: hash }).then(() => {
                                 res.status(201).json({message: 'Successfuly update the new password'})
                             })
                         });
-                    });
-            } else{
+                    }
+             else{
                 return res.status(404).json({ error: 'No user Exists', success: false})
             }
             })
