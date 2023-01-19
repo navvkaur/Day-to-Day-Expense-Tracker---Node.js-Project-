@@ -21,7 +21,7 @@ function datasave(event){
         const response = await axios.post("http://43.205.255.229:3000/login/sign-in",detail);
         console.log(response);
         console.log(response.data.newUserLogin);
-        window.location = "login.html";
+        window.location = "http://43.205.255.229:3000/login.html";
         return;
        
        
@@ -54,7 +54,7 @@ getrequest= async () => {
         if(response.status == 200){
            alert(response.data.message)
            localStorage.setItem('token',response.data.token)
-          window.location = "expense.html";
+          window.location = "http://43.205.255.229:3000/expense.html";
       }
     }).catch(err=>{console.log(JSON.stringify(err))
         document.getElementById("error").innerHTML+= `<h3>${err.message}</h3>`;
