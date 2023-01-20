@@ -4,17 +4,20 @@ async function reset_Password(event)
     
     const email = document.getElementById('email').value;
 
-    const details = {
-        email
-    };
+    
     console.log(email);
+    const userEmail = {email};
+     axios.post('http://localhost:3000/password/forgotpassword',userEmail).then((response)=>{
+        if(response.status === 200){
+            console.log(response.data.link)
+            document.getElementById('error').innerHTML += `<div style="color:red;">Mail Successfuly sent <div>` 
+            document.getElementById('clickme').innerHTML += response.data.link.html;
+           
+            document.getElementById('email').value = null;
 
-    const response = await axios.post('http://43.205.255.229:3000/forgotpassword',details).then((response)=>{
-        if(response.status === 202){
-            document.getElementById('error').innerHTML += '<div style="color:red;">Mail Successfuly sent <div>'
-        } else {
-            throw new Error('Something went wrong!!!')
-        }
+        } 
+
+        
     })
     
 

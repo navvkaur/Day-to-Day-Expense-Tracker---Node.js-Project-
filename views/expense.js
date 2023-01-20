@@ -22,16 +22,20 @@ function getExpense()
     const token = localStorage.getItem('token');
     let params = new URLSearchParams(window.location.search);
     page = params.get('page');
+
+    if(page == null){
+        page = 1;
+    }
     console.log('page' + page);
 var row = e.options[e.selectedIndex].value;
 console.log(row)
 localStorage.setItem('size',row);
-     axios.get(`http://43.205.255.229:3000/expense/add-expense?page=${page}`,{headers:{"Authorization":token,"size":row}})
+     axios.get(`http://localhost:3000/expense/add-expense?page=${page}`,{headers:{"Authorization":token,"size":row}})
     .then(({data:{expense, ...pagedata}}) => {
        
        console.log(pagedata);
     //   for(var i = 1;i<=pagedata.count;i++){
-    //     Pagination.innerHTML += `<a id='btn${total}' href='http://43.205.255.229:3000/expense/add-expense?page=${total}'>${total}</a>`
+    //     Pagination.innerHTML += `<a id='btn${total}' href='http://65.0.31.30:3000/expense/add-expense?page=${total}'>${total}</a>`
       
     // }
         listProducts(expense)
@@ -43,7 +47,7 @@ localStorage.setItem('size',row);
     })
 }
 window.addEventListener('DOMContentLoaded', (event) => {
-    
+   
     const decodetoken = parseJwt(token);
          
     console.log(decodetoken);
@@ -52,6 +56,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     
         
         const premium = decodetoken.ispremiumuser;
+        const name = decodetoken.name;
+       
              if(premium != null)
              {
                 document.getElementById('span2').style.visibility="visible";
@@ -66,7 +72,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 function listProducts(expense)
 {
-    
+//    Pagination.innerText = '';
     console.log(expense)
     for(var i = 0;i<expense.length;i++){
           showNewUseronScreen(expense[i]);
@@ -78,57 +84,49 @@ function showPagination({
    count,currentPage,nextPage,hasnextPage,previousPage,haspreviousPage,lastPage
 }){
     
+    Pagination.innerText = '';
     
-    for(var i = 1;i<=lastPage;i++){
-
-        const btn = document.createElement('button')
-        btn.innerHTML =`<a  href='?page=${i}'>${i}</a>` 
-        btn.addEventListener('click',()=>{
-            listProducts(i) 
+    if(haspreviousPage){
+       
+        const btn2 = document.createElement('button')
+        btn2.style = style="background-color: rgb(105, 9, 105); color:white;"
+        btn2.innerHTML =`<a  href='?page=${previousPage}'>${previousPage}</a>` 
+      btn2.innerHTML = `<h3>${previousPage}</h3>`;
+        btn2.addEventListener('click',()=>{
+            listProducts(previousPage) 
+            page = previousPage
             getExpense();
-           
-            
     })
+    Pagination.appendChild(btn2);
+    }
     
-    Pagination.appendChild(btn);
-}
+    const btn1 = document.createElement('button')
+    btn1.style = style="background-color: rgb(105, 9, 105); color:white;"
+    btn1.innerHTML =`<a  href='?page=${currentPage}'>${currentPage}</a> ` 
+    btn1.addEventListener('click',()=>{
+        listProducts(currentPage)
+        page = currentPage
+        getExpense();
 
+    })
+    Pagination.appendChild(btn1);
     
-    // if(haspreviousPage){
-    //     const btn2 = document.createElement('button')
-    //     btn2.innerHTML =`<a  href='?page=${previousPage}'>${previousPage}</a>` 
-    //     btn2.addEventListener('click',()=>{
-    //         listProducts(previousPage) 
-    //         page = previousPage
-    //         getExpense();
-    // })
-    // Pagination.appendChild(btn2);
-    // }
+    if(hasnextPage){
+        const btn3 = document.createElement('button')
+        btn3.style = style="background-color: rgb(105, 9, 105); color:white;"
 
-    // const btn1 = document.createElement('button')
-    // btn1.innerHTML =`<a  href='?page=${currentPage}'>${currentPage}</a> ` 
-    // btn1.addEventListener('click',()=>{
-    //     listProducts(currentPage)
-    //     page = currentPage
-    //     getExpense();
+        btn3.innerHTML =`<a  href='?page=${nextPage}'>${nextPage}</a> ` 
+        btn3.addEventListener('click',()=>{
+            listProducts(nextPage) 
+            page = nextPage
+            getExpense();
 
-    // })
-    // Pagination.appendChild(btn1);
+    })
+    Pagination.appendChild(btn3);
+    }
 
-    // if(hasnextPage){
-    //     const btn3 = document.createElement('button')
-    //     btn3.innerHTML =`<a  href='?page=${nextPage}'>${nextPage}</a> ` 
-    //     btn3.addEventListener('click',()=>{
-    //         listProducts(nextPage) 
-    //         page = nextPage
-    //         getExpense();
-
-    // })
-    // Pagination.appendChild(btn3);
-    // }
 
 }
-
 
 
 
@@ -151,7 +149,7 @@ function findexpense(event){
     postRequest = async () => {
         try {
             if(flag==false){
-            const response = await axios.post("http://43.205.255.229:3000/expense/add-expense", expense_details,{headers:{"Authorization":token}});
+            const response = await axios.post("http://localhost:3000/expense/add-expense", expense_details,{headers:{"Authorization":token}});
             console.log(response);
             console.log(response.data.newExpenseDetail);
             location.reload();
@@ -161,7 +159,7 @@ function findexpense(event){
             else{
                 console.log(expense_details.id);
                 
-                        const response = await axios.post(`http://43.205.255.229:3000/expense/edit-expense/${expense_details.id}`,expense_details,{headers:{"Authorization":token}});
+                        const response = await axios.post(`http://localhost:3000/expense/edit-expense/${expense_details.id}`,expense_details,{headers:{"Authorization":token}});
                         console.log(response.data);
                         flag = false;
                         location.reload();
@@ -189,7 +187,7 @@ function showNewUseronScreen(userDetails){
 deleteUserfromapi = async (id) => {
     try {
        
-        const users = await axios.delete(`http://43.205.255.229:3000/expense/delete-expense/${id}`,{headers:{"Authorization":token}});
+        const users = await axios.delete(`http://localhost:3000/expense/delete-expense/${id}`,{headers:{"Authorization":token}});
         location.reload();
     } catch (err) {
 
@@ -209,13 +207,13 @@ document.getElementById('description').value=description;
 
     document.getElementById('rzp-button1').onclick = async function(e){
        
-        const response = await axios.get("http://43.205.255.229:3000/purchase/premium", {headers:{"Authorization":token}});
+        const response = await axios.get("http://localhost:3000/purchase/premium", {headers:{"Authorization":token}});
         console.log(response);
         var options ={
             "key":response.data.key_id,
             "order_id":response.data.order.id,
             "handler":async function (response){
-                await axios.post("http://43.205.255.229:3000/purchase/updatestatus", {
+                await axios.post("http://localhost:3000/purchase/updatestatus", {
                     order_id:options.order_id,
                     payment_id:response.razorpay_payment_id,
                 },{headers:{"Authorization":token}});
@@ -241,11 +239,11 @@ alert("Something went wrong!");
 async function createLeaderboard(){
     try{
    
-    const userLeaderboard = await axios.get('http://43.205.255.229:3000/premium/Leaderboard',{headers:{"Authorization":token}})
+    const userLeaderboard = await axios.get('http://localhost:3000/premium/Leaderboard',{headers:{"Authorization":token}})
     console.log(userLeaderboard);
     document.getElementById('div2-2').innerHTML=`<div class="card">
     <div class="card-header">
-      <h2 class="fw-bold mb-2 text-uppercase justify-content-center" style="font-size: large;">LEADERBOARD</h2>
+      <h2 class="fw-bold mb-2 text-uppercase justify-content-center" style="font-size: large;tyle="border: rgb(78, 5, 78); border-radius: 15px; border-width: 10px;"">LEADERBOARD</h2>
       
   </div>
       <ul id = "users" style="display: block;">
@@ -285,7 +283,7 @@ async function createLeaderboard(){
 
 async function download(){
    try {
-    const response = await axios.get('http://43.205.255.229:3000/premium/download',{headers:{"Authorization":token}})
+    const response = await axios.get('http://localhost:3000/premium/download',{headers:{"Authorization":token}})
    
         if(response.status === 200){
             //the bcakend is essentially sending a download link
@@ -316,7 +314,7 @@ async function getdownload()
 {   
     console.log("hiii");
    try {
-    const response = await axios.get("http://43.205.255.229:3000/expense/download",{headers:{"Authorization":token}})
+    const response = await axios.get("http://localhost:3000/expense/download",{headers:{"Authorization":token}})
      
       
       console.log(response.data);

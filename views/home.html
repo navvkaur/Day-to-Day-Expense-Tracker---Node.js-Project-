@@ -1,0 +1,182 @@
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     
+     <title>Home Page</title> 
+     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+ </head>
+ <body>
+    <style>
+         body{
+        background-image: url('https://w0.peakpx.com/wallpaper/392/773/HD-wallpaper-falling-money-saving-bank-usa-black-dark-dollars.jpg');
+      }
+      @import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+
+      @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+}
+.sky{
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background-color: #00ccff;
+  overflow-x: hidden;
+}
+.clouds{
+  position: absolute;
+  top:50px;
+  height: 100px;
+  right: 0;
+  left: -2000px;
+  width: 500%;
+  background-image: url(https://i.ibb.co/7S6qn59/clouds.png);
+  background-repeat: repeat-x;
+  animation: clouds 50s linear infinite;
+}
+@keyframes clouds{
+  100%{
+    transform: translateX(2000px);
+  }
+}
+.mountains{
+  position: absolute;
+  bottom:0;
+  height: 250px;
+  right: 0;
+  left: -2000px;
+  width: 500%;
+  background-image: url(https://i.ibb.co/zJbfkgZ/mountain.png);
+  background-repeat: repeat-x;
+  animation: mountains 10s linear infinite;
+}
+@keyframes mountains{
+  100%{
+    transform: translateX(2000px);
+  }
+}
+
+.airplane{
+  top: 180px;
+  left:40%;
+  position: absolute;
+  z-index: 1;
+}
+  
+.flame{
+  top: -40px;
+  left: 150px;
+  height: 10px;
+  width:60px;
+  position: relative;
+  border-radius: 50%;
+  background-color: #ffffff;
+  animation: flame 0.3s linear infinite;
+   z-index: -1;
+}
+.flame2{
+  top: -195px;
+  left: 115px;
+}
+@keyframes flame{
+  0%{
+    transform: translateX(0%);
+  }
+  50%{
+    transform: translateX(50%);
+  }
+  100%{
+    transform: translateX(0%);
+  }
+}
+.waviy {
+  
+  -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
+  font-size: 30px;
+}
+.waviy span {
+  font-family: 'Alfa Slab One', cursive;
+  position: relative;
+  display: inline-block;
+  color: rgb(27, 1, 27);
+  text-transform: uppercase;
+  animation: waviy 1s infinite;
+  animation-delay: calc(.1s * var(--i));
+  
+}
+@keyframes waviy {
+  0%,40%,100% {
+    transform: translateY(0)
+  }
+  20% {
+    transform: translateY(-20px)
+  }
+}
+
+
+    </style>
+
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color: rgb(105, 9, 105);">
+   
+     
+   
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto center">
+        <li class="nav-item active">
+            <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
+        </li>
+        
+       
+      </ul>
+      
+      <form class="form-inline my-2 my-lg-0">
+      
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"  onclick="window.location.href='http://43.205.255.229:3000/signup.html';">DONT HAVE AN ACCOUNT SINGUP!</button>
+         <BR>
+            <BR>
+
+    
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"  onclick="window.location.href='http://43.205.255.229:3000/login.html';">Login</button>
+      </form>
+    </div>
+  </nav>
+
+  
+  <div class="sky">
+    <div class="clouds"></div>
+
+    <div class="airplane">
+      <img src="https://i.ibb.co/SPpRcJz/airplane.png">   <div class="waviy">
+        <span style="--i:1">B</span>
+        <span style="--i:2">Y</span>
+        <span style="--i:3"></span>
+        <span style="--i:4">N</span>
+        <span style="--i:5">A</span>
+        <span style="--i:6">V</span>
+        <span style="--i:7">N</span>
+        <span style="--i:8">E</span>
+        <span style="--i:9">E</span>
+        <span style="--i:10">T</span>
+     
+       </div>
+       
+      
+      
+      
+    <div class="flame"></div>
+    <div class="flame flame2"></div>
+    </div>
+
+    <div class="mountains"></div>
+  </div>
+
+    
+   </body>
